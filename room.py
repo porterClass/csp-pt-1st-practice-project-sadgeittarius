@@ -1,16 +1,10 @@
-from random import *
-import math
-def generate_room_info(dif):
-    enemy = enemyChances[abs(round(normalvariate(0,dif)))]
-    item = itemChances[abs(round(normalvariate(0,2)))]
-    doors = [doorChances[round(randint(1,4))],doorChances[round(randint(1,4))]]
-    return [enemy,item,doors]
+import random
 
 enemyChances = {
   0: "puppy",
-  1: "",
+  1: "slime",
   2: "goblin",
-  3: "slime",
+  3: "cat",
   4: "fairy"
 }
 
@@ -19,12 +13,29 @@ itemChances = {
   1: "knife",
   2: "sword",
   3: "bread",
-  4: "key"
 }
 
-doorChances = {
-  1: "west",
-  2: "north",
-  3: "east",
-  4: "south"
-}
+door = ["north", "south", "east", "west"]
+
+def generate_part(x, dict):
+    if(x not in dict.keys()):
+        return dict[0]
+    return dict[x]
+
+def generate_doors(inp):
+    lis=[]
+    while(len(lis) == 0):
+      lis = random.choices(door, weights = [1,1,1,1], k = 2)
+      mylist = ["a", "b", "a", "c", "c"]
+      lis = list(dict.fromkeys(lis))
+      if inp in lis:
+          lis.remove(inp)
+    return lis
+
+def generate_room_info(dif,current, inp):
+    enemy = generate_part(abs(round(random.normalvariate(0,dif))),enemyChances)
+    item = generate_part(abs(round(random.normalvariate(0,2))), itemChances)
+    if(dif>7):
+        item = "gate"
+    doors = generate_doors(inp)
+    return [enemy,item,doors]
