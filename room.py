@@ -26,7 +26,6 @@ def generate_doors(inp):
     lis=[]
     while(len(lis) == 0):
       lis = random.choices(door, weights = [1,1,1,1], k = 2)
-      mylist = ["a", "b", "a", "c", "c"]
       lis = list(dict.fromkeys(lis))
       if inp in lis:
           lis.remove(inp)
@@ -39,3 +38,28 @@ def generate_room_info(dif,current, inp):
         item = "gate"
     doors = generate_doors(inp)
     return [enemy,item,doors]
+
+def enemyEncounter(enemy):
+    match enemy:
+        case "goblin":
+            return -2
+        case "slime":
+            return -1
+        case "cat":
+            return 0
+        case "puppy":
+            return 0
+        case "fairy":
+            return 3000
+        
+def itemBuff(player):
+    item = player[0]
+    match item:
+        case "hands":
+            return 0
+        case "knife":
+            return 1
+        case "sword":
+            return 2
+        case _:
+            return -1
