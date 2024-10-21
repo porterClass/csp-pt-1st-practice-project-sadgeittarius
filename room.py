@@ -45,21 +45,18 @@ def enemyEncounter(enemy):
             return -2
         case "slime":
             return -1
-        case "cat":
-            return 0
-        case "puppy":
-            return 0
         case "fairy":
             return 3000
+        case _:
+            return 0
         
-def itemBuff(player):
-    item = player[0]
+def itemBuff(item):
     match item:
         case "hands":
             return 0
         case "knife":
-            return 1
+            return .5
         case "sword":
-            return 2
+            return 1.5
         case _:
             return -1

@@ -19,14 +19,16 @@ def explore_room(current,play):
     print("you have met a ", current[0])
     time.sleep(1)
     enemy = current[0]
-    global hp
-    old = hp
-    hp+=enemyEncounter(enemy)
-    hp+=itemBuff(play[1][1])
-    if(hp>old):
-        hp=old
+    old = play[0]
+    h = play[0]
+    h += enemyEncounter(enemy)
+    print("post enemy",h)
+    h += itemBuff(play[1][0])
+    print("calc this:",h)
+    if(h > old):
+        h = old
     global player 
-    print("after your encounter you have: "+str(hp)+" hp")
+    print("after your encounter you have: "+str(h)+" hp")
     
     print("you have found a",current[1])
     if(current[1] == "gate"):
@@ -39,10 +41,10 @@ def explore_room(current,play):
                 it=False
                 if(current[1]=="sword" or current[1] == "knife"):
                     play[1][0] = current[1]
-                    player = [hp,play[1]]
+                    player = [h,play[1]]
                 else:
                     play[1][1].append(current[1])
-                    player=[hp,play[1]]
+                    player=[h,play[1]]
             case "n":
                 it=False
             case _:
@@ -64,13 +66,18 @@ def boss_encounter(play):
     time.sleep(1)
     print("...")
     time.sleep(1)
-    if((play[0]>=2 and play[1][1] == "sword") or (play[0]>=3 and play[1][1] == "knife") or (play[0]>=4 and play[1][1] == "hands")):
+    if(play[0]>=2 and play[1][0] == "sword"):
+        print("you barely won, good game")
+    elif(play[0]>=3 and play[1][0] == "knife"):
+        print("you barely won, good game")
+    elif(play[0]>=5 and play[1][0] == "hands"):
         print("you barely won, good game")
     else:
+        global player 
+        player = [0,player[1]]
         print("you lost horribly")
     global alive
     alive = False
-    return "dead"
 
 introduction()
 
@@ -78,8 +85,7 @@ while(alive):
     print("--------------------------------------------------------------------------------------------------------------")
     print("type 'stop' to end the game")
     print("type an item's name to use it")
-    print("you have entered a room with doors", generate_doors(currentRoom[2])+"\ntype 'explore', a direction to move, or 'status'")
-    print(currentRoom)#remove this later
+    print("you have entered a room with doors", generate_doors(currentRoom[2])+"\ntype 'explore', a direction to skip the room, or 'status'")
     inp = input("")
     oldRoom = currentRoom
     if(inp == "explore"):

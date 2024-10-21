@@ -30,7 +30,11 @@ def listener(dif, inp, current, player):
             time.sleep(2)
             return current
         case "secret_code":
-            print("you left the old room")
+            if(player[0]<1):
+                print("you've left this world")
+                return []
+            else:
+                print("you left the old room")
             return generate_room_info(dif, current, inp)
         case _:
             print("not valid input")
